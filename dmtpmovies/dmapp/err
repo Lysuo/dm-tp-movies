@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "script.py", line 6, in <module>
+    from dmapp.models import MovieEntry
+ImportError: No module named dmapp.models

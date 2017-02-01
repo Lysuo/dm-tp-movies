@@ -1,0 +1,65 @@
+<html>
+<head>
+	<title>WSH</title>	
+	<link rel="stylesheet" href="static/css/bootstrap.css">	
+	
+</head>
+
+<body>
+	<div class="container" id="container-main">
+	
+	
+	<div class="col-md-5">
+<div class="row">
+	<br />
+	<br /><br />
+	
+	<div id="update-div">
+		<input type="button" id="update-button" value="Update" style="display: visible;" name="">
+		<input id="input-session-TP" type="text" />
+	</div>
+	<br />
+		
+	<select class="ws-fields" id="ws-list">
+		<option value="0">----------</option>
+	</select>	
+	<br />
+	
+	<form id="form_action" action="" method="POST" target="_blank" enctype="text/plain">		
+		<div id="dyn-form">			
+		</div>
+		<br />
+		<input id="add-filter-button" type="button" value="+" />
+	</form>
+	
+	<br/>
+	
+	<table id="result-table">
+	<tr><th>predicate</th><th>operator</th><th>value</th><th>delete</th></tr>
+	</table>
+	
+	<br />
+	<br />
+	<input type="button" id="button-test" value="submit" style="display: visible;" name="">
+
+	<br />
+  
+	<div id="table-results">
+	</div>
+	
+	</div>
+	</div>
+	
+	<div class="col-md-6 col-md-offset-1">
+<div class="row">
+<div id="div-content-movie">
+</div>
+</div>
+</div>
+	
+	</div>
+		
+	<script src="static/js/jquery-1.11.3.min.js"></script>
+	<script src="static/js/own-js.js"></script>
+</body>
+</html>

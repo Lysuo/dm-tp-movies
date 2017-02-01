@@ -1,0 +1,21 @@
+
+Mon Jan 30 18:40:45 2017
+34130
+El impacto mortal
+curl -X GET 'http://www.omdbapi.com/?t=Intersections' 2> /dev/null
+exception IMDB: invalid literal for int() with base 10: 'N/A'
+{"Title":"Intersections","Year":"2000","Rated":"N/A","Released":"N/A","Runtime":"87 min","Genre":"Drama","Director":"Yuichi Kurokawa","Writer":"Yuichi Kurokawa","Actors":"N/A","Plot":"A night in the life of three Memphis cab drivers and their strange passengers.","Language":"English","Country":"USA","Awards":"N/A","Poster":"N/A","Metascore":"N/A","imdbRating":"5.7","imdbVotes":"N/A","imdbID":"tt0465507","Type":"movie","Response":"True"}
+
+Mon Jan 30 21:28:04 2017
+34130
+El impacto mortal
+curl -X GET 'http://www.omdbapi.com/?t=Intersections' 2> /dev/null
+exception IMDB: invalid literal for int() with base 10: 'N/A'
+{"Title":"Intersections","Year":"2000","Rated":"N/A","Released":"N/A","Runtime":"87 min","Genre":"Drama","Director":"Yuichi Kurokawa","Writer":"Yuichi Kurokawa","Actors":"N/A","Plot":"A night in the life of three Memphis cab drivers and their strange passengers.","Language":"English","Country":"USA","Awards":"N/A","Poster":"N/A","Metascore":"N/A","imdbRating":"5.7","imdbVotes":"N/A","imdbID":"tt0465507","Type":"movie","Response":"True"}
+
+Mon Jan 30 21:43:14 2017
+34130
+El impacto mortal
+curl -X GET 'http://www.omdbapi.com/?t=Intersections' 2> /dev/null
+exception IMDB: invalid literal for int() with base 10: 'N/A'
+{"Title":"Intersections","Year":"2000","Rated":"N/A","Released":"N/A","Runtime":"87 min","Genre":"Drama","Director":"Yuichi Kurokawa","Writer":"Yuichi Kurokawa","Actors":"N/A","Plot":"A night in the life of three Memphis cab drivers and their strange passengers.","Language":"English","Country":"USA","Awards":"N/A","Poster":"N/A","Metascore":"N/A","imdbRating":"5.7","imdbVotes":"N/A","imdbID":"tt0465507","Type":"movie","Response":"True"}

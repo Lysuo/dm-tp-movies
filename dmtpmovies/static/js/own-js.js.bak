@@ -1,0 +1,360 @@
+var wsDic = {};
+var fieldsWS = {};
+
+var testProvMac = [];
+var testProvAgent = [];
+var i = 0;
+
+var encryptPassword = true;
+var saved_passwd;
+var saved_password;
+
+var stbTs = true;
+encryptPasswordChanged = true;
+
+$('#encryptionPassword').empty();
+$('#encryptionPassword').append("encryption of password: " + encryptPassword + ". Check the box to desactivate encryption.");
+
+$('#addStbTs').empty();
+$('#addStbTs').append("stbTs parameter automatically added and equal to ts parameter (when present): " + stbTs + ". Check the box to withdraw stbTs parameter.");
+
+sessionR = "";
+
+$(function(){
+		
+	//00
+	wsDic["0000"] = {"type": "", };
+	wsDic["0"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["1"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "mdnDest": {"type": "input", "values": ["1"]}};
+	wsDic["2"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["3"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	
+	// 100
+	wsDic["100"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}};
+	wsDic["101"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "ts": {"type": "input", "values": ["1473112689772"]}}; 
+	wsDic["102"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["1"]}, "lchId": {"type": "input", "values": ["450"]}};
+	//wsDic["103"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["1"]}, "ts": {"type": "input", "values": ["1465843568840"]}, "daysMinus": {"type": "input", "values": ["-7"]}, "daysMore": {"type": "input", "values": ["7"]}, "stbTs": {"type": "input", "values": ["1"]}};
+	wsDic["103"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["1"]}, "ts": {"type": "input", "values": ["1465843568840"]}, "daysMinus": {"type": "input", "values": ["-7"]}, "daysMore": {"type": "input", "values": ["7"]}};
+	wsDic["107"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["140"]}, "epgId": {"type": "input", "values": ["14248268"]}};
+	wsDic["108"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["140"]}, "ts": {"type": "input", "values": ["1444269036719"]}, "stbTs": {"type": "input", "values": ["0"]}};
+	wsDic["109"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "prefix": {"type": "input", "values": ["22"]}, "ts": {"type": "input", "values": ["1446159242744"]}};
+	wsDic["112"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}};
+	wsDic["113"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "idEpg": {"type": "input", "values": ["21682263"]}};
+	wsDic["115"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "bookmark": {"type": "input", "values": ["4000"]}, "epgId": {"type": "input", "values": ["16173668"]}};
+	wsDic["117"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}};
+	wsDic["118"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}, "ccaId": {"type": "input", "values": ["405"]}, "channelNumber": {"type": "input", "values": ["-1"]}};
+	wsDic["121"] = {"type": "Epg", "session": {"type": "input", "values": ["none"]}};
+	wsDic["122"] = {"type": "Epg", "mac": {"type": "input", "values": ["8c:10:d4:9b:b0:c5"]}, "usePut": {"type": "input", "values": ["Y"]}};
+	
+	//200
+	wsDic["201"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}};
+	wsDic["202"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "club": {"type": "select", "values": ["TRANS", "HBOMD", "KIDS", "SUSC", "VOD4K", "4KTRANS"]}, "maxRows": {"type": "input", "values": ["1000"]}};
+	wsDic["203"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "vodId": {"type": "input", "values": ["1234", "28087"]}};
+	wsDic["206"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "vodId": {"type": "input", "values": ["1234"]}, "quality": {"type": "select", "values": ["SD", "HD", "4k"]}, "passwd": {"type": "input", "values": ["1"]}};
+	wsDic["208"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "vodId": {"type": "input", "values": ["1234"]}, "csbId": {"type": "input", "values": ["0"]}, "claId": {"type": "input", "values": ["0"]}, "bookmark": {"type": "input", "values": ["0"]}};
+	wsDic["209"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "club": {"type": "select", "values": ["TRANS", "KIDS", "SUSC", "FORMAN"]}, "maxRows": {"type": "input", "values": ["1000"]}, "vodId": {"type": "input", "values": ["30160", "11830", "28480", "27298"]}};
+	wsDic["210"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "catName": {"type": "input", "values": ["TRANS", "KIDS", "SUSC"]}, "club": {"type": "select", "values": ["TRANS", "KIDS", "SUSC"]}, "maxRows": {"type": "input", "values": ["1000"]}, "vodId": {"type": "input", "values": ["9513", "11830", "28480", "27298"]}};
+	wsDic["214"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]},  "club": {"type": "input", "values": ["TRANS", "KIDS", "SUSC"]}};
+	wsDic["216"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]},  "code": {"type": "input", "values": ["673043746"]}};
+	wsDic["217"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]},  "club": {"type": "select", "values": ["TRANS", "KIDS", "SUSC"]}, "page": {"type": "input", "values": ["1"]}};
+	wsDic["219"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]}, "vodId": {"type": "input", "values": ["33268"]}};
+	wsDic["221"] = {"type": "Vod", "session": {"type": "input", "values": ["none"]},  "club": {"type": "select", "values": ["TRANS", "KIDS", "SUSC"]}, "cvcId": {"type": "input", "values": ["1"]}, "maxRows": {"type": "input", "values": ["1000"]}, "page": {"type": "input", "values": ["1"]}};
+	
+	// 600
+	wsDic["600"] = {"type": "Admin", "mac": {"type": "input", "values": ["8c:10:d4:9b:b0:b5", "00:04:30:73:df:7f"]}, "version": {"type": "select", "values": ["3.0", "2.0"]}, "userAgent": {"type": "select", "values": ["M350", "M384", "MB52", "N7703", "N7700"]}}
+	wsDic["605"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["606"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["607"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "proId": {"type": "input", "values": ["351350"]}};
+	wsDic["608"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["609"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["610"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "alias": {"type": "select", "values": ["PROFILE", "DEST", "TV", "VOD", "APPS", "CONFIG"]}};
+	wsDic["612"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "proId": {"type": "input", "values": ["351346"]}, "passwd": {"type": "input", "values": ["1111"]}};
+	wsDic["614"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["615"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "updateType": {"type": "input", "values": ["15"]}, "value": {"type": "input", "values": ["respuesta_secreta"]}, "proId": {"type": "input", "values": ["97600"]}};
+	wsDic["617"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["618"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["619"] = {"type": "Admin", "answer": {"type": "input", "values": ["respuesta"]}, "mac": {"type": "input", "values": ["8c:10:d4:9b:af:3e"]}, "alias": {"type": "input", "values": ["ROOT"]}, "passwd": {"type": "input", "values": ["0000"]}, "rating": {"type": "input", "values": ["D"]}, "cavId": {"type": "input", "values": ["none"]}, "mail": {"type": "input", "values": ["jerome@sgc.com"]}, "idQuestion": {"type": "input", "values": ["2"]}};
+	wsDic["620"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["626"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "alias": {"type": "select", "values": ["ADULT", "CARTE", "HBOMD", "MCD", "MYST", "SUSC"]}};
+	wsDic["627"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "status": {"type": "input", "values": ["none"]}, "notId": {"type": "input", "values": ["none"]}, "notType": {"type": "input", "values": ["none"]}};
+	wsDic["628"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "alias": {"type": "input", "values": ["PLANET"]}, "auth": {"type": "input", "values": ["rGmwpMjhrHhcDjN4R16bQA=="]},};
+	wsDic["629"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "prmId": {"type": "input", "values": ["29"]}}; // toopen promotion
+	wsDic["630"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "prmId": {"type": "input", "values": ["32"]}};
+	wsDic["632"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "alias": {"type": "select", "values": ["ADULT", "CARTE", "HBOMD", "MCD", "MYST", "CRACKLE", "GPHD", "PLANET"]}};
+	wsDic["633"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["636"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["641"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "updateTypes": {"type": "input", "values": ["11;9;11;16"]}, "values": {"type": "input", "values": ["40;D;40;N"]}, "proId": {"type": "input", "values": ["529841"]}};
+	wsDic["667"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["668"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	wsDic["669"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}, "ssIdName": {"type": "input", "values": ["TP_ROAMING"]}, "password": {"type": "input", "values": ["TP_ROAMING_PASSWD"]}, "idSecurity": {"type": "input", "values": ["1"]}};
+	wsDic["670"] = {"type": "Admin", "session": {"type": "input", "values": ["none"]}};
+	
+	//700
+	wsDic["700"] = {"type": "Recommendation", "session": {"type": "input", "values": ["none"]}, "values": {"type": "input", "values": ["0,0,7,0"]}, "club": {"type": "select", "values": ["SUSC"]}};
+	wsDic["701"] = {"type": "Recommendation", "session": {"type": "input", "values": ["none"]}, "epgId": {"type": "input", "values": ["14753846"]}, "channel": {"type": "input", "values": ["14"]}, "values": {"type": "input", "values": ["2%2C2%2C2%2C2%2C2"]}};
+	wsDic["702"] = {"type": "Recommendation", "session": {"type": "input", "values": ["none"]}, "vodId": {"type": "input", "values": ["31552"]}, "values": {"type": "input", "values": ["0,0,0,3"]}};
+	wsDic["703"] = {"type": "Recommendation", "session": {"type": "input", "values": ["none"]}, "epgId": {"type": "input", "values": ["14753846"]}, "channel": {"type": "input", "values": ["14"]}, "advertising": {"type": "select", "values": ["Y", "N"]}};
+	
+	//800
+	wsDic["801"] = {"type": "Search", "session": {"type": "input", "values": ["none"]}, "pattern": {"type": "input", "values": ["hostal"]}};
+	wsDic["802"] = {"type": "Search", "session": {"type": "input", "values": ["none"]}, "channel": {"type": "input", "values": ["205"]}, "epgId": {"type": "input", "values": ["15503953"]}};
+	
+	//900
+	wsDic["900"] = {"type": "Hotel", "mac": {"type": "input", "values": ["54:64:d9:de:", "00:04:30:73:df:7f"]}}
+	
+	
+	for (var k in wsDic) {
+		$('#ws-list').append("<option value=\""+wsDic[k]["type"]+"\">"+k+"</option>");
+	}
+	
+	
+});
+
+function dealEvent(event) {
+		
+	var input;
+	var html = "";
+	
+	if (event!=null) {		
+		if(event.target.id in fieldsWS) {
+			fieldsWS[event.target.id] = $("#"+event.target.id+" option:selected").val();
+			if ($("#"+event.target.id+" option:selected").val() == undefined) {
+				fieldsWS[event.target.id] = $("#"+event.target.id).val();
+			}
+		}
+	}
+	
+	if ($("#ws-list option:selected").text() != "----------") {
+		html += $("#server-list option:selected").val();
+		html += wsDic[$("#ws-list option:selected").text()]["type"] + "?type=" + $("#ws-list option:selected").text();
+		
+		// action form
+		
+		if ($("#server-list option:selected").val() == "http://192.168.100.5/ws/") {
+			$("#form_action").attr("action", $("#server-list option:selected").val()+""+wsDic[$("#ws-list option:selected").text()]["type"]+"/index.php?");
+		} else {
+			$("#form_action").attr("action", $("#server-list option:selected").val()+""+wsDic[$("#ws-list option:selected").text()]["type"]);
+		}
+		
+		var name_submit = "type=" + $("#ws-list option:selected").text();
+
+		if (fieldsWS["session"] != "none") {
+			sessionR = fieldsWS["session"];
+		}
+			
+		
+		// encryption of password
+//		if (encryptPasswordChanged) {
+			if (encryptPassword == true) {
+				saved_password = fieldsWS["password"];
+				saved_passwd = fieldsWS["passwd"];
+				if (fieldsWS["passwd"] != null) {			
+					console.log("encrypted passwd for WS " + $("#ws-list option:selected").text());
+					fieldsWS["passwd"] = encryptByDES(fieldsWS["passwd"], "MDWIPTV2012");	
+				} else if (($("#ws-list option:selected").text() == "615" && fieldsWS["updateType"] == "2")) {
+					console.log("encrypted passwd for WS " + $("#ws-list option:selected").text());
+					fieldsWS["value"] = encryptByDES(fieldsWS["value"], "MDWIPTV2012");
+				} else if (fieldsWS["password"] != null) {			
+					console.log("encrypted password for WS " + $("#ws-list option:selected").text());
+					fieldsWS["password"] = encryptByDES(fieldsWS["password"], "1PTVv3.0M1ddl3w4r3-tpngTpsg");	
+				} 
+			} else {
+				fieldsWS["passwd"] = saved_passwd;
+				fieldsWS["password"] = saved_password;
+			}
+//		}
+		if (encryptPasswordChanged) {
+			encryptPasswordChanged = false;
+		}
+		
+		// building the parameters string
+		for (var key in fieldsWS) {
+			if (fieldsWS[key] != undefined) {
+				html += "&" + key + "=" + fieldsWS[key];
+				name_submit += "&" + key + "=" + fieldsWS[key];
+			}
+		}
+		
+		if (stbTs == true && fieldsWS["ts"] != undefined) {			
+			html += "&" + "stbTs" + "=" + fieldsWS["ts"];
+			name_submit += "&" + "stbTs" + "=" + fieldsWS["ts"];
+		}
+		
+		// encryption of mac for WS Admin 600
+		if ($("#ws-list option:selected").text() == "600") {
+			var mac_addr = fieldsWS["mac"];		
+			name_submit += "&" + "passwd" + "=" + encryptByDES(mac_addr.replace( /:/g, ""), "1PTVv3.0M1ddl3w4r3-tpngTpsg");
+		} 
+			
+		// adding parameters string to post button
+		name_submit += "&" + "";
+		$('#post_btn').attr("name", name_submit);
+		
+		$('#result-url').empty();
+		$('#result-url').append("<a href=\""+html+"\" target=\"_blank\">"+html+"</a>");
+	}
+}
+
+
+$('#ws-list').change(function() {
+	fieldsWS = {};
+	$('#dyn-form').empty();
+	
+    var val = $("#ws-list option:selected").text();
+	
+	
+    var dic = wsDic[val];
+	var html = "";
+	
+	$('#dyn-session').hide();
+	for (var key in dic) {
+		html += "<br/>";
+		if (dic[key]["type"] == "input") {
+			
+			if (key == "session") {
+				if (sessionR != "") {
+					html += "<label for=\""+key+"\">"+key+"</label><br/>";
+					html += "<input type=\"text\" id=\""+key+"\" value=\""+sessionR+"\" onchange=\"dealEvent(event);\"><br/>";
+					fieldsWS[key] = sessionR;
+				} else {
+					html += "<label for=\""+key+"\">"+key+"</label><br/>";
+					html += "<input type=\"text\" id=\""+key+"\" value=\""+dic[key]["values"][0]+"\" onchange=\"dealEvent(event);\"><br/>";
+					fieldsWS[key] = dic[key]["values"][0];
+				}
+			} else {
+				html += "<label for=\""+key+"\">"+key+"</label><br/>";
+				html += "<input type=\"text\" id=\""+key+"\" value=\""+dic[key]["values"][0]+"\" onchange=\"dealEvent(event);\"><br/>";
+				fieldsWS[key] = dic[key]["values"][0];
+			}
+			
+			
+		} else if (dic[key]["type"] == "select") {
+			html += "<label for=\""+key+"\">"+key+"</label><br/>";
+			html += "<select id=\""+key+"\" onchange=\"dealEvent(event);\">";
+			for (var e in dic[key]["values"]) {
+				html += "<option value=\""+dic[key]["values"][e]+"\">"+dic[key]["values"][e]+"</option>";
+				fieldsWS[key] = dic[key]["values"][0];			
+			}
+			html += "</select><br/>";
+			
+		}		
+	}
+	
+	$('#dyn-form').append(html);
+	
+});
+
+
+$('.ws-fields').change(function(event) {
+	dealEvent(event);
+});
+
+
+CryptoJS.mode.ECB = (function () {
+    var ECB = CryptoJS.lib.BlockCipherMode.extend();
+
+    ECB.Encryptor = ECB.extend({
+        processBlock: function (words, offset) {
+            this._cipher.encryptBlock(words, offset);
+			console.log("encryptor");
+        }
+    });
+
+    ECB.Decryptor = ECB.extend({
+        processBlock: function (words, offset) {
+            this._cipher.decryptBlock(words, offset);
+			console.log("decryptor");
+        }
+    });
+
+    return ECB;
+}());
+
+
+function encryptByDES(message, key) {
+    var keyHex = CryptoJS.enc.Utf8.parse(key);
+    var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+    return encrypted.toString();
+}
+
+function decryptByDES(message, key) {
+    var keyHex = CryptoJS.enc.Utf8.parse(key);
+    var encrypted = CryptoJS.DES.decrypt(message, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+    return encrypted.toString();
+}
+
+
+$('input#encryptionPasswordCheckbox').change(function () {
+    if ($('input#encryptionPasswordCheckbox').is(':checked')) {
+		encryptPassword = false;
+    } else {
+		encryptPassword = true;
+    }
+	encryptPasswordChanged = true;
+	console.log("encryptPassword: " + encryptPassword);
+		
+	$('#encryptionPassword').empty();
+	$('#encryptionPassword').append("encryption of password: " + encryptPassword + ". Check the box to desactivate encryption.");
+	
+	dealEvent(null);
+});
+
+$('input#addStbTsCheckbox').change(function () {
+    if ($('input#addStbTsCheckbox').is(':checked')) {
+		stbTs = false;
+    } else {
+		stbTs = true;
+    }
+	console.log("stbTs: " + stbTs);
+		
+	$('#addStbTs').empty();
+	$('#addStbTs').append("stbTs parameter automatically added and equal to ts parameter  (when present): " + stbTs + ". Check the box to withdraw stbTs parameter.");
+	
+	dealEvent(null);
+});
+
+
+function testProv() {
+	
+	var mac_addr;
+	var userAgent;
+	var name_submit;
+	
+	if (i<200) {
+		console.log(i);
+		mac_addr = testProvMac[i];
+		userAgent = testProvAgent[i];
+		name_submit = "";
+		
+		$("#form_action").attr("action", "http://10.1.0.146/TPMCOREWeb/"+""+"Admin");	
+		name_submit = "type=" + "600";		
+		name_submit += "&" + "mac" + "=" + mac_addr;
+		name_submit += "&" + "userAgent" + "=" + userAgent;
+		name_submit += "&" + "version" + "=" + "3.0";			
+		name_submit += "&" + "passwd" + "=" + encryptByDES(mac_addr.replace( /:/g, ""), "1PTVv3.0M1ddl3w4r3-tpngTpsg");				
+		name_submit += "&" + "stbTs" + "=00";
+		
+		console.log(name_submit);
+		
+		$('#post_btn').attr("name", name_submit);
+		$('#post_btn').trigger("click");
+	}
+		
+	i+=1;
+}
+
+
+
+testProvMac = [
+'8c:10:d4:a1:fe:11', '8c:10:d4:a1:ff:60', '8c:10:d4:9b:af:9d', '8c:10:d4:d6:c2:55', '8c:10:d4:d6:c1:ef', '54:64:d9:7a:2f:be', '8c:10:d4:9b:af:6b', '8c:10:d4:9f:cb:3c', '8c:10:d4:9b:ae:c1', '8c:10:d4:9b:a3:63', '8c:10:d4:9b:a3:68', '8c:10:d4:d2:61:aa', '8c:10:d4:d4:d3:6d'
+];
+
+testProvAgent = [
+'M350', 'M350', 'M350', 'M384', 'M384', 'M384', 'M350', 'M350', 'M350', 'M350', 'M350', 'M384', 'M384'
+];

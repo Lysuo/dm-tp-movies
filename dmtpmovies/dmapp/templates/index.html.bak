@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>WSH</title>	
+	<link rel="stylesheet" href="css/bootstrap.css">	
+	
+</head>
+
+<body>
+	<div class="container" id="container-main">
+	
+	<br />
+	
+	<div class="checkbox">
+	  <label><input id="encryptionPasswordCheckbox" type="checkbox" value=""><span id="encryptionPassword" checked>Hello</span></label>
+	</div>
+	<div class="checkbox">
+	  <label><input id="addStbTsCheckbox" type="checkbox" value=""><span id="addStbTs" checked>Hello</span></label>
+	</div>
+	<br /><br />
+	
+	<select class="ws-fields" id="server-list">
+	
+		<option value="http://10.1.0.146/TPMCOREWeb/">prod</option>
+		<option value="http://10.1.0.190:80/TPMCOREWeb/">pre-prod</option>
+		<option value="http://10.213.12.163:9900/TPMCOREWeb/">dev</option>
+		<option value="http://10.213.12.162:8081/TPMCOREWeb/">dev2</option>
+		<option value="http://52.49.216.154/TPMCOREWeb/">mock_server</option>
+		<option value="http://192.168.100.5/ws/">local</option>
+		<option value="https://10.213.8.212/FOXPlay/GetData/">ngapps</option>		
+		<option value="http://10.1.0.83:9901/TPMCOREWeb/">dev-main-node</option>
+	</select>
+	
+	<select class="ws-fields" id="ws-list">
+		<option value="0">----------</option>
+	</select>
+	
+	
+	
+	<br /><br />
+	
+	<form id="form_action" action="" method="POST" target="_blank" enctype="text/plain">		
+		<div id="dyn-form">			
+		</div>
+		<br />
+		<input type="submit" id="post_btn" value="submit" style="display: visible;" name="">
+	</form>
+	
+	<br/>
+	<div id="result-url">
+	</div>
+	
+	<br />
+	<br />
+	<span onclick="testProv();"> Test Provisioning </span>
+	
+	</div>
+		
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/tripledes.js"></script>
+	<script src="js/own-js.js"></script>
+</body>
+</html>
