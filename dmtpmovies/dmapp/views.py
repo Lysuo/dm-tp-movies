@@ -29,6 +29,10 @@ def home(request):
         response_data = check_update()
         return HttpResponse(json.dumps(response_data),content_type='application/json')
 
+      elif action == "save_changes":
+        response_data = save_changes(request)
+        return HttpResponse(json.dumps(response_data),content_type='application/json')
+
   else:
     return render(request, 'index.html', locals())
 
@@ -51,6 +55,14 @@ def run_update(request):
 def check_update():
   p = ParamEntry.objects.get(mName='isUpdating')
   return json.dumps('{\'runing_update\': \''+p.mValue+'\'}')
+
+def save_changes(request):
+  m = MovieEntry.objects.get(mID=request.POST.get('idMovie'))
+  m.mNew = True if request.POST.get('isNew') == 'true' else False
+  m.mSeen = True if request.POST.get('isSeen') == 'true' else False
+  m.mWhishlist = True if request.POST.get('isWhishlist') == 'true' else False
+  m.save()
+  return json.dumps('{\'saving_changes\': \'true\'}')
 
 @csrf_exempt
 def dealAjax(request):

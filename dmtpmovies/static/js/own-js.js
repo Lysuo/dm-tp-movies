@@ -4,6 +4,7 @@ var memTable = {};
 
 var i = 0;
 var count = 0;
+var movieSelectedK;
 
 var countries = ["Dinamarca","Estados Unidos","Gran Bretaña","Italia","Argentina","Israel","Canadá","México","Noruega","Chile","Brasil","Francia","Corea del Sur","Japón","Sudáfrica","Alemania","Reino Unido","Australia","China","España","Corea del Norte","India","Taiwán","Suecia","República Dominicana","República Checa","Afganistán","Nueva Zelanda","Ruanda"];
 countries.sort();
@@ -21,6 +22,8 @@ $(function(){
   //wsDic["country"] = {"dbName": "mCountryTP", "pred": {"type": "select", "display": ["is"], "values": [""]}, "value": {"form": "string", "type": "input", "values": ["Estados Unidos"]}};
   wsDic["catgory"] = {"dbName": "mCat", "pred": {"type": "select", "display": ["is"], "values": [""]}, "value": {"form": "string", "type": "select", "values": categories, "display": categories}};
   wsDic["isNew"] = {"dbName": "mNew", "pred": {"type": "select", "display": ["is"], "values": [""]}, "value": {"form": "boolean", "type": "input", "values": ["True", "False"]}};
+  wsDic["isWhishlist"] = {"dbName": "mWhishlist", "pred": {"type": "select", "display": ["is"], "values": [""]}, "value": {"form": "boolean", "type": "input", "values": ["True", "False"]}};
+  wsDic["isSeen"] = {"dbName": "mSeen", "pred": {"type": "select", "display": ["is"], "values": [""]}, "value": {"form": "boolean", "type": "input", "values": ["False", "True"]}};
   
   
   for (var k in wsDic) {
@@ -154,11 +157,14 @@ var dataToSend = {
 var arrResults = [];
 
 $("#table-results").delegate('tr', 'click', function() {
+	
+  $('#button-save-movie-changes').attr("style", "");
+  
   var html = '<br /><br /><br /><table style="width:100%">'; //<tr><th></th><th>TP</th><th>IMDB</th></tr>'
   var k = parseInt($(this).attr("name"));
+  movieSelectedK = k;
 
-
-  html += '<tr><td><b>ID</b></td><td>'+arr[k].mId+'</td><td></td></tr>';
+  html += '<tr><td><b>ID</b></td><td id="id-movie-selected" value='+arr[k].mId+'>'+arr[k].mId+'</td><td></td></tr>';
   html += '<tr><td><b>Title</b></td><td>'+arr[k].mTitleTP+'</td><td></td></tr>';
   html += '<tr><td><b>Original Title</b></td><td>'+arr[k].mOriginalTitleTP+'</td><td>'+arr[k].mTitleI+'</td></tr>';
   html += '<tr><td><b>Category</b></td><td>'+arr[k].mCat+'</td><td></td></tr>';
@@ -173,20 +179,37 @@ $("#table-results").delegate('tr', 'click', function() {
   html += '<tr><td><b>Awards</b></td><td></td><td>'+arr[k].mAwardsI+'</td></tr>';
   html += '</table><br /><br />';
 
-  html += "<b>Formats</b>: " + arr[k].mFormat1 + " ; "
-    html += arr[k].mFormat2 + " ; "
-    html += arr[k].mFormat3 + " ; "
-    html += arr[k].mFormat4 + " ; "
-    html += arr[k].mFormat5 + " ; "
-    html += arr[k].mFormat6 + " ; "
-    html += arr[k].mFormat7 + " ; "
-    html += arr[k].mFormat8 + " ; <br /><br /> "
+  html += "<b>Formats</b>: " + arr[k].mFormat1 + " ; ";
+    html += arr[k].mFormat2 + " ; ";
+    html += arr[k].mFormat3 + " ; ";
+    html += arr[k].mFormat4 + " ; ";
+    html += arr[k].mFormat5 + " ; ";
+    html += arr[k].mFormat6 + " ; ";
+    html += arr[k].mFormat7 + " ; ";
+    html += arr[k].mFormat8 + " ; <br /><br /> ";
 
-    html += "<b>Description TP</b>:" + arr[k].mDescriptionTP + "<br /><br />"
-    html += "<b>Description IMDB</b>:" + arr[k].mDescriptionI + "<br /><br />"
+    html += "<b>Description TP</b>:" + arr[k].mDescriptionTP + "<br /><br />";
+    html += "<b>Description IMDB</b>:" + arr[k].mDescriptionI + "<br /><br />";
 
     $("#div-content-movie").html("");
   $("#div-content-movie").append(html);
+  
+  if (arr[k].mNew) {
+	$('#isNewCheckbox').prop('checked', true);
+  } else {
+	$('#isNewCheckbox').prop('checked', false);
+  }
+  if (arr[k].mSeen) {
+	$('#isSeenCheckbox').prop('checked', true);
+  } else {
+	$('#isSeenCheckbox').prop('checked', false);
+  }
+  if (arr[k].mWhishlist) {
+	$('#isWhishListCheckbox').prop('checked', true);
+  } else {
+	$('#isWhishListCheckbox').prop('checked', false);
+  }
+  $("#checkboxes-div").attr("style", "display:visible;");
 });
 
 $(window).scroll(function() { 
@@ -285,10 +308,52 @@ $('#update-button').click(
 		});
 });
 
+$('#button-save-movie-changes').click(
+	function () {
+      console.log("save movie changes button clicked");
+
+	  action = 'save_changes';
+	  
+      dataToSend = { 
+		'action': action,
+		'idMovie': $('#id-movie-selected').html(),
+		'isNew': $('#isNewCheckbox').is(':checked'),
+		'isSeen': $('#isSeenCheckbox').is(':checked'),
+		'isWhishlist': $('#isWhishListCheckbox').is(':checked')
+	  };
+
+	  
+      $.ajax({
+        type: 'POST' ,
+        cache: false,
+        url: '/',
+        datatype: "json",
+        async: true,
+        data: dataToSend,
+
+        success: function(json) {
+          console.log("success");
+		  arr[movieSelectedK].mNew = dataToSend['isNew'];
+		  arr[movieSelectedK].mSeen = dataToSend['isSeen'];
+		  arr[movieSelectedK].mWhishlist = dataToSend['isWhishlist'];
+		  $('#button-save-movie-changes').attr("style", "background-color:green;");
+        },
+        error: function(){
+          console.log("error");		  
+		  $('#button-save-movie-changes').attr("style", "background-color:red;");
+        }, 
+        complete: function(){
+          console.log("complete");
+        } 
+		});
+});
+
 function checkUpdateStatus(){
 
 	action = 'check_update';
 	dataToSend = {'action': action};
+	
+	
 
       $.ajax({
         type: 'POST' ,
